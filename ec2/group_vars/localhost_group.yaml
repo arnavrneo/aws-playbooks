@@ -1,5 +1,5 @@
 ---
-become: true
-become_user: root
-connection: local
+become: true # noqa var-naming[no-reserved]
+become_user: root # noqa var-naming[no-reserved]
+connection: local # noqa var-naming[no-reserved]
 ...
