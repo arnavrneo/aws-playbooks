@@ -1,0 +1,38 @@
+---
+
+- name: Configure EC2 instance
+  hosts: localhost # change to dynamic inventory if req
+  # connection: ssh
+  become: true
+
+  tasks:
+    - name: Update the machine
+      ansible.builtin.command: sudo apt-get clean && update -y # noqa command-instead-of-module no-changed-when
+
+    - name: Installing essentials
+      ansible.builtin.command: apt-get install apt-transport-https ca-certificates curl software-properties-common -y # noqa command-instead-of-module no-changed-when yaml[line-length]
+
+    - name: Installing Curl
+      ansible.builtin.command: apt-get install curl -y # noqa command-instead-of-module no-changed-when
+
+    - name: Pre-steps
+      ansible.builtin.command: "{{ item }}" # noqa no-changed-when
+      with_items:
+        - curl -fsSL https://get.docker.com -o get-docker.sh
+        - sudo sh get-docker.sh
+
+    - name: Adding user to group
+      ansible.builtin.command: sudo usermod -aG docker ${USER} # noqa no-changed-when
+
+    - name: Restarting docker service
+      ansible.builtin.command: sudo service docker restart # noqa no-changed-when
+
+    - name: Updating the machine 2
+      ansible.builtin.command: sudo apt-get update # noqa command-instead-of-module no-changed-when
+
+    - name: Installing Python Pip
+      ansible.builtin.command: sudo apt-get install python-pip -y # noqa command-instead-of-module no-changed-when
+
+    - name: Installing Docker compose
+      ansible.builtin.command: sudo apt-get install docker-compose-plugin # noqa command-instead-of-module no-changed-when
+...
