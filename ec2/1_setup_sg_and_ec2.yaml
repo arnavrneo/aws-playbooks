@@ -1,8 +1,9 @@
 ---
 -
   name: Create Security Group and EC2 instances
-  hosts: localhost_group
+  hosts: localhost
   connection: local
+  become: true
   gather_facts: false
 
   vars_prompt:
@@ -38,7 +39,7 @@
     - name: key_name
       prompt: "Enter key name: "
       private: false
-      default: ansible
+      default: "ansible"
 
     - name: count
       prompt: "Enter count of instances: "
