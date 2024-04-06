@@ -1,5 +1,14 @@
 ---
+- name: Create S3
+  hosts: ansible
+  become: yes
+
+  vars_promt:
+     - name: bucket_name
+       prompt: "Enter the bucket name: "
+       private: false
+
 - amazon.aws.s3_bucket:
-    name: mys3bucket
+    name: "{{ bucket_name }}"
     state: present
 ...
