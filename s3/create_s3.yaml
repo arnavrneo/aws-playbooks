@@ -1,14 +1,22 @@
 ---
 - name: Create S3
-  hosts: ansible
-  become: yes
+  hosts: localhost
+  connection: local
+  become: true
 
-  vars_promt:
+  vars_prompt:
      - name: bucket_name
        prompt: "Enter the bucket name: "
        private: false
 
-- amazon.aws.s3_bucket:
-    name: "{{ bucket_name }}"
-    state: present
+     - name: aws_profile
+       prompt: "Enter the aws profile: "
+       private: false
+
+  tasks: 
+  - name: Create S3 bucket
+    amazon.aws.s3_bucket:
+      profile: "{{ aws_profile }}"
+      name: "{{ bucket_name }}"
+      state: present
 ...
